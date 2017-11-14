@@ -51,18 +51,21 @@ def main():
 
     if args.hostname:
         if args.port:
-            checkConnectionAndReturnSocket( args.hostname, args.port )
-            print( '[*] the server is alive and port 25 is open' )
-    else:
-        print( '[-] the server is not alive or the tcp port is not open' )
-        sys.exit(1)
+            s = checkConnectionAndReturnSocket( args.hostname, args.port )
+            if s is True:
+                print( '[*] the server is alive and port 25 is open' )
+            else:
+                print( '[-] the server is not alive or the tcp port is not open' )
+                sys.exit(1)
     if args.username:
         checkTheUser( args.username, args.hostname, args.port )
     elif args.usernames:
         if args.num is None:
             print( 'you have to specify the number of checks' )
-    else:
+    elif args.usernames:
         checkByUsernameFile( args.usernames, args.hostname, args.port, args.num )
+    else:
+        print( 'something is wrong here' )
 
 if __name__ == "__main__":
             main()
