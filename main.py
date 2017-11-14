@@ -19,16 +19,16 @@ def checkConnectionAndReturnSocket( Hostname, Port ):
         s.connect( (socket.gethostbyname( Hostname ), Port) )
         f = open( F, 'r' )
         if f:
-        i = 0
-        while i != numLines:
-            user = f.readline().strip()
-            s.send( 'VRFY '.encode() + user.encode() + ' \r\n'.encode() )
-            usercheck = s.recv( 1024 )
-            if '250'.encode() in usercheck:
-                print( '[*] {} exist on the mail server'.format( user ) )
-            else:
-            print( '[-] {} doesn\'t exist on the mail server'.format( user ) )
-            i = i + 1
+            i = 0
+            while i != numLines:
+                user = f.readline().strip()
+                s.send( 'VRFY '.encode() + user.encode() + ' \r\n'.encode() )
+                usercheck = s.recv( 1024 )
+                if '250'.encode() in usercheck:
+                    print( '[*] {} exist on the mail server'.format( user ) )
+                else:
+                    print( '[-] {} doesn\'t exist on the mail server'.format( user ) )
+                i = i + 1
 
     def checkTheUser( user, Hostname, Port ):
         s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
