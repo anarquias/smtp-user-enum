@@ -14,7 +14,7 @@ def checkConnectionAndReturnSocket( Hostname, Port ):
     else:
         return False
 
-    def checkByUsernameFile( F, Hostname, Port, numLines ):
+def checkByUsernameFile( F, Hostname, Port, numLines ):
         s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
         s.connect( (socket.gethostbyname( Hostname ), Port) )
         f = open( F, 'r' )
@@ -30,7 +30,7 @@ def checkConnectionAndReturnSocket( Hostname, Port ):
                     print( '[-] {} doesn\'t exist on the mail server'.format( user ) )
                 i = i + 1
 
-    def checkTheUser( user, Hostname, Port ):
+def checkTheUser( user, Hostname, Port ):
         s = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
         s.connect( (socket.gethostbyname( Hostname ), Port) )
         s.send( 'VRFY '.encode() + user.encode() + ' \r\n'.encode() )
@@ -50,18 +50,19 @@ def main():
     args = parser.parse_args()
 
     if args.hostname:
-        s = checkConnectionAndReturnSocket( args.hostname, args.p )
-        print( '[*] the server is alive and port 25 is open' )
+        if args.port:
+            checkConnectionAndReturnSocket( args.hostname, args.port )
+            print( '[*] the server is alive and port 25 is open' )
     else:
         print( '[-] the server is not alive or the tcp port is not open' )
         sys.exit(1)
-    if args.u:
-        checkUsername = checkTheUser( args.u, args.hostname, args.p )
-    elif args.U:
+    if args.username:
+        checkTheUser( args.username, args.hostname, args.port )
+    elif args.usernames:
         if args.num is None:
             print( 'you have to specify the number of checks' )
     else:
-        checkByUsernameFile( args.U, args.hostname, args.p, args.num )
+        checkByUsernameFile( args.usernames, args.hostname, args.port, args.num )
 
 if __name__ == "__main__":
             main()
