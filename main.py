@@ -65,7 +65,8 @@ def main():
     elif args.usernames:
         checkByUsernameFile( args.usernames, args.hostname, args.port, args.num )
     else:
-        print( 'something is wrong here' )
+        print( 'something is wrong here\n
+                use the -h option and see' )
 
 if __name__ == "__main__":
             main()
